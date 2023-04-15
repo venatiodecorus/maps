@@ -1,10 +1,11 @@
 import { createSignal, Show } from 'solid-js';
-import MapGL, { Viewport, Control, Light, Camera } from 'solid-map-gl';
+import MapGL, { Viewport, Light, Camera } from 'solid-map-gl';
 import * as maplibre from 'maplibre-gl';
 
 import type { JSX } from 'solid-js';
 import type { MapOptions } from 'maplibre-gl';
 
+import MapControls from './MapControls';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 function BadassMap(): JSX.Element {
@@ -39,18 +40,7 @@ function BadassMap(): JSX.Element {
                 <button onClick={toggleRotate}> Rotation Off </button>
             </Show>
 
-            <Control
-                type="navigation"
-                position="top-right"
-                options={{
-                    showCompass: true,
-                    showZoom: true,
-                    visualizePitch: true,
-                }}
-            />
-
-            <Control type="geolocate" position="top-right" />
-            <Control type="scale" position="bottom-left" />
+            <MapControls />
 
             <Light style={{
                 anchor: 'viewport',
