@@ -1,12 +1,12 @@
 import { Title } from "solid-start";
-import BadassMap from "~/components/BadassMap";
+import Counter from "~/components/Counter";
 
 export default function Home() {
     return (
         <main>
             <Title>Lightning</Title>
             <h1>Lightning</h1>
-            <BadassMap />
+            <Counter />
             <p>Click and drag to watch me explode!
             </p>
         </main>
