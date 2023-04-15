@@ -13,7 +13,8 @@ export default function BadassMap() {
         antialias: true,
     } as Viewport);
 
-    const [rotate, toggleRotate] = createSignal(true)
+    const [rotate, setRotate] = createSignal(true)
+    const [rotateReverse, setRotateReverse] = createSignal(true)
 
     return (
         <MapGL
@@ -25,7 +26,11 @@ export default function BadassMap() {
             onViewportChange={(evt: Viewport) => setViewport(evt)}
         >
 
-            <button onClick={() => console.log('sup')}>map button</button>
+            <button 
+                onClick={ () => rotate() ? setRotate(false) : setRotate(true) }>
+                Toggle rotation
+            </button>
+
             <Control type="fullscreen" position="top-right" />
             <Control type="navigation" position="top-right" />
             <Control type="geolocate" position="top-right" />
@@ -39,7 +44,7 @@ export default function BadassMap() {
 
             <Camera
                 rotateViewport={rotate()}
-                reverse='true'
+                reverse={rotateReverse()}
             />
 
         </MapGL>
