@@ -1,4 +1,5 @@
 import { Title } from 'solid-start';
+import Counter from "~/components/Counter";
 
 export default function Home() {
     return (
@@ -33,6 +34,7 @@ export default function Home() {
                     github.com/adoyle0/maps
                 </a>
             </p>
+            <Counter />
         </main>
     );
 }
