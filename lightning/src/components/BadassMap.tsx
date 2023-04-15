@@ -39,7 +39,6 @@ function BadassMap(): JSX.Element {
                 <button onClick={toggleRotate}> Rotation Off </button>
             </Show>
 
-            <Control type="fullscreen" position="top-right" />
             <Control type="navigation" position="top-right" />
             <Control type="geolocate" position="top-right" />
             <Control type="scale" position="bottom-left" />
