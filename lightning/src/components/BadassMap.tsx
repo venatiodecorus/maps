@@ -1,9 +1,9 @@
-import { Component, createSignal } from 'solid-js';
+import { Component, createSignal, Show } from 'solid-js';
 import MapGL, { Viewport, Control, Light, Camera } from 'solid-map-gl';
 import * as maplibre from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-export default function BadassMap() {
+export default function BadassMap(): Component {
     const [viewport, setViewport] = createSignal({
         center: [-71.05625, 42.36],
         zoom: 15.5,
@@ -14,7 +14,7 @@ export default function BadassMap() {
     } as Viewport);
 
     const [rotate, setRotate] = createSignal(true)
-    const [rotateReverse, setRotateReverse] = createSignal(true)
+    const toggleRotate = () => setRotate(!rotate())
 
     return (
         <MapGL
@@ -26,10 +26,12 @@ export default function BadassMap() {
             onViewportChange={(evt: Viewport) => setViewport(evt)}
         >
 
-            <button 
-                onClick={ () => rotate() ? setRotate(false) : setRotate(true) }>
-                Toggle rotation
-            </button>
+            <Show
+                when={rotate()}
+                fallback={<button onClick={toggleRotate}> Rotation On </button>}
+            >
+                <button onClick={toggleRotate}> Rotation Off </button>
+            </Show>
 
             <Control type="fullscreen" position="top-right" />
             <Control type="navigation" position="top-right" />
@@ -44,7 +46,7 @@ export default function BadassMap() {
 
             <Camera
                 rotateViewport={rotate()}
-                reverse={rotateReverse()}
+                reverse={true}
             />
 
         </MapGL>
