@@ -4,7 +4,7 @@ import Counter from "~/components/Counter";
 export default function Home() {
     return (
         <main>
-            <Title>Lightning</Title>
+            <Title>About Lightning</Title>
             <h1>About</h1>
             <ul>
                 <li>
