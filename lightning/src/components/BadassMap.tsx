@@ -1,14 +1,8 @@
 import { createSignal, Show } from 'solid-js';
 import * as maplibre from 'maplibre-gl';
-import MapGL, {
-    Viewport,
-    Light,
-    Camera,
-    Source,
-    Layer,
-} from 'solid-map-gl';
-import { MapboxLayer } from '@deck.gl/mapbox';
-import { ArcLayer } from '@deck.gl/layers';
+import MapGL, { Viewport, Camera, Layer, Popup, Marker } from 'solid-map-gl';
+import { MapboxLayer } from '@deck.gl/mapbox/typed';
+import { ArcLayer, ScatterplotLayer } from '@deck.gl/layers/typed';
 
 import MapControls from './MapControls';
 
@@ -19,29 +13,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 
 function BadassMap(): JSX.Element {
-    // data stuff
     const FANEUIL_HALL: number[] = [-71.05625, 42.36]
     const GD_TAVERN: number[] = [-71.056922, 42.360919]
-    const FAKE_GJSON = {
-        type: 'geojson',
-        data: {
-            "type": "FeatureCollection", "features": [
-                { "type": "Feature", "geometry": { "type": "Point", "coordinates": FANEUIL_HALL } },
-                { "type": "Feature", "geometry": { "type": "Point", "coordinates": GD_TAVERN } },
-            ],
-        }
-    };
 
-    // markers
-    const RED_DOT = {
-        type: 'circle',
-        paint: {
-            'circle-radius': 4,
-            'circle-color': 'red',
-        }
-    };
-
-    // map stuff
     const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM'
     const options: MapOptions = {
         container: 'solid-map-gl will override me',
@@ -59,7 +33,7 @@ function BadassMap(): JSX.Element {
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
 
-    const myDeckLayer = new MapboxLayer({
+    const arcLayer = new MapboxLayer({
         id: 'deckgl-arc',
         type: ArcLayer,
         data: [
@@ -72,6 +46,19 @@ function BadassMap(): JSX.Element {
         getWidth: 8,
     });
 
+    const scatterplotLayer = new MapboxLayer({
+        id: 'deckgl-scatterplot',
+        type: ScatterplotLayer,
+        data: [
+            { coordinates: FANEUIL_HALL },
+            { coordinates: GD_TAVERN },
+        ],
+        getPosition: (d: any) => d.coordinates,
+        getRadius: 30,
+        getFillColor: [255, 140, 0],
+        getLineColor: [0, 0, 0,]
+    });
+
     return (
         <MapGL
             mapLib={maplibre}
@@ -79,26 +66,27 @@ function BadassMap(): JSX.Element {
             viewport={viewport()}
             onViewportChange={(evt: Viewport) => setViewport(evt)}
         >
-            <Source source={FAKE_GJSON} >
-                <Layer style={RED_DOT} />
-            </Source>
-            <Layer customLayer={myDeckLayer} />
-            <MapControls />
-            <Camera
-                rotateViewport={rotate()}
-                reverse={true}
-            />
-            <Light style={{
-                anchor: 'viewport',
-                color: 'white',
-                intensity: 0.9,
-            }} />
-            <Show
-                when={rotate()}
-                fallback={<button onClick={toggleRotate}> Rotation On </button>}
+            <Layer customLayer={arcLayer} />
+            <Layer customLayer={scatterplotLayer} />
+
+            <Marker
+                lngLat={FANEUIL_HALL}
+                options={{ color: '#900' }}
             >
-                <button onClick={toggleRotate}> Rotation Off </button>
-            </Show>
+                hi
+            </Marker>
+
+                <MapControls />
+                <Camera
+                    rotateViewport={rotate()}
+                    reverse={true}
+                />
+                <Show
+                    when={rotate()}
+                    fallback={<button onClick={toggleRotate}> Rotation On </button>}
+                >
+                    <button onClick={toggleRotate}> Rotation Off </button>
+                </Show>
         </MapGL >
     );
 };
