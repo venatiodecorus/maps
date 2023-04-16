@@ -1,11 +1,20 @@
 import { createSignal, Show } from 'solid-js';
-import MapGL, { Viewport, Light, Camera, Source, Layer } from 'solid-map-gl';
 import * as maplibre from 'maplibre-gl';
+import MapGL, {
+    Viewport,
+    Light,
+    Camera,
+    Source,
+    Layer,
+} from 'solid-map-gl';
+import { MapboxLayer } from '@deck.gl/mapbox';
+import { ArcLayer } from '@deck.gl/layers';
+
+import MapControls from './MapControls';
 
 import type { JSX } from 'solid-js';
 import type { MapOptions } from 'maplibre-gl';
 
-import MapControls from './MapControls';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 
@@ -15,7 +24,8 @@ function BadassMap(): JSX.Element {
     const GD_TAVERN: number[] = [-71.056922, 42.360919]
     const FAKE_GJSON = {
         type: 'geojson',
-        data: { "type": "FeatureCollection", "features": [
+        data: {
+            "type": "FeatureCollection", "features": [
                 { "type": "Feature", "geometry": { "type": "Point", "coordinates": FANEUIL_HALL } },
                 { "type": "Feature", "geometry": { "type": "Point", "coordinates": GD_TAVERN } },
             ],
@@ -49,6 +59,18 @@ function BadassMap(): JSX.Element {
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
 
+    const myDeckLayer = new MapboxLayer({
+        id: 'deckgl-arc',
+        type: ArcLayer,
+        data: [
+            { source: FANEUIL_HALL, target: GD_TAVERN },
+        ],
+        getSourcePosition: (d: any) => d.source,
+        getTargetPosition: (d: any) => d.target,
+        getSourceColor: [255, 208, 0],
+        getTargetColor: [0, 128, 255],
+        getWidth: 8,
+    });
 
     return (
         <MapGL
@@ -60,6 +82,7 @@ function BadassMap(): JSX.Element {
             <Source source={FAKE_GJSON} >
                 <Layer style={RED_DOT} />
             </Source>
+            <Layer customLayer={myDeckLayer} />
             <MapControls />
             <Camera
                 rotateViewport={rotate()}

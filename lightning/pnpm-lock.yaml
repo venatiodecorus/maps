@@ -1,12 +1,12 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@deck.gl/core':
-    specifier: ^8.9.7
-    version: 8.9.7
   '@deck.gl/layers':
     specifier: ^8.9.7
     version: 8.9.7(@deck.gl/core@8.9.7)(@loaders.gl/core@3.3.3)(@luma.gl/core@8.5.19)
+  '@deck.gl/mapbox':
+    specifier: ^8.9.7
+    version: 8.9.7(@deck.gl/core@8.9.7)
   '@solidjs/meta':
     specifier: ^0.28.4
     version: 0.28.4(solid-js@1.7.3)
@@ -1200,6 +1200,15 @@ packages:
       earcut: 2.2.4
     dev: false
 
+  /@deck.gl/mapbox@8.9.7(@deck.gl/core@8.9.7):
+    resolution: {integrity: sha512-EcELbZ24s+aE99C38v2ubRjppoEGUgSZuz9wHrjK9BT1a9+wGKBpeRkks79HOy0ey5343guOgUWoKGKQ/QdAeg==}
+    peerDependencies:
+      '@deck.gl/core': ^8.0.0
+    dependencies:
+      '@deck.gl/core': 8.9.7
+      '@types/mapbox-gl': 2.7.10
+    dev: false
+
   /@esbuild/android-arm64@0.17.16:
     resolution: {integrity: sha512-QX48qmsEZW+gcHgTmAj+x21mwTz8MlYQBnzF6861cNdQGvj2jzzFjqH0EBabrIa/WVZ2CHolwMoqxVryqKt8+Q==}
     engines: {node: '>=12'}
@@ -1751,6 +1760,12 @@ packages:
 
   /@types/hammerjs@2.0.41:
     resolution: {integrity: sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==}
+    dev: false
+
+  /@types/mapbox-gl@2.7.10:
+    resolution: {integrity: sha512-nMVEcu9bAcenvx6oPWubQSPevsekByjOfKjlkr+8P91vawtkxTnopDoXXq1Qn/f4cg3zt0Z2W9DVsVsKRNXJTw==}
+    dependencies:
+      '@types/geojson': 7946.0.10
     dev: false
 
   /@types/mapbox__point-geometry@0.1.2:
