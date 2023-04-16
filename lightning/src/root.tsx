@@ -11,9 +11,10 @@ import {
     Routes,
     Scripts,
     Title,
+    unstable_clientOnly,
 } from "solid-start";
-import BadassMap from './components/BadassMap.tsx'
 import "./root.css";
+const BadassMap = unstable_clientOnly(() => import('~/components/BadassMap'));
 
 export default function Root() {
     return (
@@ -28,7 +29,7 @@ export default function Root() {
                     <ErrorBoundary>
                         <A href="/">Map</A>
                         <A href="/about">About</A>
-                        <BadassMap />
+                        <BadassMap fallback={<div>hi</div>} />
                         <Routes>
                             <FileRoutes />
                         </Routes>
