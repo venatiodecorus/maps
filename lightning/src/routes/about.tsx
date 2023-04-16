@@ -27,6 +27,11 @@ export default function Home() {
                         Solid Map GL
                     </a>
                 </li>
+                <li>
+                    <a href="https://deck.gl/" target="_blank">
+                        deck.gl
+                    </a>
+                </li>
             </ul>
             <img src='5Q14.gif' />
             <p>

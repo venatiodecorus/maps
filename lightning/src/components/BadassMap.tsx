@@ -5,6 +5,8 @@ import { MapboxLayer } from '@deck.gl/mapbox/typed';
 import { ArcLayer, ScatterplotLayer } from '@deck.gl/layers/typed';
 
 import MapControls from './MapControls';
+import MapScatLayer from './MapScatLayer';
+import MapArcLayer from './MapArcLayer';
 
 import type { JSX } from 'solid-js';
 import type { MapOptions } from 'maplibre-gl';
@@ -15,6 +17,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 function BadassMap(): JSX.Element {
     const FANEUIL_HALL: number[] = [-71.05625, 42.36]
     const GD_TAVERN: number[] = [-71.056922, 42.360919]
+    const BBC: number[] = [-71.103, 42.3145]
+    const GARDEN: number[] = [-71.062228, 42.366303] 
+    const PR_HOUSE: number[] = [-71.053678,	42.363722]
 
     const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM'
     const options: MapOptions = {
@@ -33,26 +38,36 @@ function BadassMap(): JSX.Element {
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
 
+    const ARC_DATA = [
+            { source: FANEUIL_HALL, target: GD_TAVERN },
+            { source: FANEUIL_HALL, target: BBC },
+            { source: FANEUIL_HALL, target: GARDEN },
+            { source: FANEUIL_HALL, target: PR_HOUSE },
+        ];
+
     const arcLayer = new MapboxLayer({
         id: 'deckgl-arc',
         type: ArcLayer,
-        data: [
-            { source: FANEUIL_HALL, target: GD_TAVERN },
-        ],
+        data: ARC_DATA,
         getSourcePosition: (d: any) => d.source,
         getTargetPosition: (d: any) => d.target,
-        getSourceColor: [255, 208, 0],
-        getTargetColor: [0, 128, 255],
-        getWidth: 8,
+        getSourceColor: [200, 0, 0],
+        getTargetColor: [0, 230, 0],
+        getWidth: 6,
     });
+
+    const SCATTER_DATA = [
+            { coordinates: FANEUIL_HALL },
+            { coordinates: GD_TAVERN },
+            { coordinates: BBC },
+            { coordinates: GARDEN },
+            { coordinates: PR_HOUSE },
+        ];
 
     const scatterplotLayer = new MapboxLayer({
         id: 'deckgl-scatterplot',
         type: ScatterplotLayer,
-        data: [
-            { coordinates: FANEUIL_HALL },
-            { coordinates: GD_TAVERN },
-        ],
+        data: SCATTER_DATA,
         getPosition: (d: any) => d.coordinates,
         getRadius: 30,
         getFillColor: [255, 140, 0],
@@ -76,17 +91,17 @@ function BadassMap(): JSX.Element {
                 hi
             </Marker>
 
-                <MapControls />
-                <Camera
-                    rotateViewport={rotate()}
-                    reverse={true}
-                />
-                <Show
-                    when={rotate()}
-                    fallback={<button onClick={toggleRotate}> Rotation On </button>}
-                >
-                    <button onClick={toggleRotate}> Rotation Off </button>
-                </Show>
+            <Camera
+                rotateViewport={rotate()}
+                reverse={true}
+            />
+            <Show
+                when={rotate()}
+                fallback={<button onClick={toggleRotate}> Rotation On </button>}
+            >
+                <button onClick={toggleRotate}> Rotation Off </button>
+            </Show>
+            <MapControls />
         </MapGL >
     );
 };
