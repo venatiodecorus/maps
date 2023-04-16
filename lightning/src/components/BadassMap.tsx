@@ -8,19 +8,25 @@ import type { MapOptions } from 'maplibre-gl';
 import MapControls from './MapControls';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
+const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM'
+
 function BadassMap(): JSX.Element {
     const options: MapOptions = {
-        container: '',
-        style: 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM',
+        container: 'solid-map-gl will override me',
+        style: TILES_URL,
         maxPitch: 85,
         antialias: true,
+    }
+
+    const INITIAL_VIEW_STATE: Viewport = {
         center: [-71.05625, 42.36],
         zoom: 15.5,
         bearing: 160,
         pitch: 60,
+
     }
 
-    const [viewport, setViewport] = createSignal<Viewport>(options);
+    const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEW_STATE);
 
     const [rotate, setRotate] = createSignal<boolean>(true)
     const toggleRotate = () => setRotate<boolean>(!rotate())
