@@ -85,7 +85,6 @@ function BadassMap(): JSX.Element {
             >
                 <button onClick={toggleRotate}> Rotation Off </button>
             </Show>
-            <button onClick={setViewport({...viewport, pitch:0})}> Hey </button>
             <MapControls />
         </MapGL >
     );
