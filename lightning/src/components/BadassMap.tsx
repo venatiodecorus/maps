@@ -63,6 +63,7 @@ function BadassMap(): JSX.Element {
             onDrag={() => setRotate(false)}
             onMouseDown={() => setRotate(false)}
             onTouchStart={() => setRotate(false)}
+            onZoomStart={() => setRotate(false)}
         >
             <MapScatLayer data={SCAT_DATA} />
             <MapArcLayer data={ARC_DATA} />
