@@ -1,18 +1,22 @@
 {
     "version": 8,
+    "id": "klokantech-3d",
     "name": "Klokantech 3D",
-    "metadata": {
-        "mapbox:autocomposite": false,
-        "maputnik:renderer": "mbgljs",
-        "openmaptiles:version": "3.x"
-    },
+    "bearing": 160,
+    "pitch": 60,
+    "center": [
+        -71.05625,
+        42.36
+    ],
+    "zoom": 15.5,
+    "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=Ukl2QNcQUCPAwuelQOvM",
+    "sprite": "https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/sprite",
     "sources": {
         "openmaptiles": {
             "type": "vector",
             "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=Ukl2QNcQUCPAwuelQOvM"
         }
     },
-    "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=Ukl2QNcQUCPAwuelQOvM",
     "layers": [
         {
             "id": "background",
@@ -1435,6 +1439,5 @@
                 "text-halo-width": 2
             }
         }
-    ],
-    "id": "klokantech-3d"
+    ]
 }

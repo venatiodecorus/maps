@@ -13,7 +13,7 @@ import type { MapOptions } from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-import * as stylesheet from '~/style.json'
+import * as MAP_STYLE from '~/style.json'
 
 // test data
 const FANEUIL_HALL: number[] = [-71.05625, 42.36]
@@ -39,26 +39,18 @@ const SCAT_DATA = [
 
 const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM';
 
-const TILES_STYLE: StyleSpecification = {
-};
-
 
 function BadassMap(): JSX.Element {
     const MY_LOC = FANEUIL_HALL;
     const options: MapOptions = {
         container: 'solid-map-gl will override me',
-        style: stylesheet,
+        style: MAP_STYLE,
         maxPitch: 85,
         antialias: true,
-    };
-    const INITIAL_VIEW_STATE: Viewport = {
-        center: MY_LOC,
-        zoom: 15.5,
-        bearing: 160,
-        pitch: 60,
+        renderWorldCopies: false,
     };
 
-    const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEW_STATE);
+    const [viewport, setViewport] = createSignal<Viewport>();
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
 
@@ -68,6 +60,9 @@ function BadassMap(): JSX.Element {
             options={options}
             viewport={viewport()}
             onViewportChange={(evt: Viewport) => setViewport(evt)}
+            onDrag={() => setRotate(false)}
+            onMouseDown={() => setRotate(false)}
+            onTouchStart={() => setRotate(false)}
         >
             <MapScatLayer data={SCAT_DATA} />
             <MapArcLayer data={ARC_DATA} />
@@ -90,6 +85,7 @@ function BadassMap(): JSX.Element {
             >
                 <button onClick={toggleRotate}> Rotation Off </button>
             </Show>
+            <button onClick={setViewport({...viewport, pitch:0})}> Hey </button>
             <MapControls />
         </MapGL >
     );
