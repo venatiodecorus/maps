@@ -1,15 +1,19 @@
+import MapGL, { Viewport, Camera, Marker } from 'solid-map-gl';
 import { createSignal, Show } from 'solid-js';
 import * as maplibre from 'maplibre-gl';
-import MapGL, { Viewport, Camera, Marker } from 'solid-map-gl';
-
 import MapControls from './MapControls';
-import MapScatLayer from './MapScatLayer';
-import MapArcLayer from './MapArcLayer';
+
+// deck.gl
+import { unstable_clientOnly } from 'solid-start';
+const MapScatLayer = unstable_clientOnly(() => import('~/components/MapScatLayer'));
+const MapArcLayer = unstable_clientOnly(() => import('~/components/MapArcLayer'));
 
 import type { JSX } from 'solid-js';
 import type { MapOptions } from 'maplibre-gl';
+import type { StyleSpecification } from 'maplibre-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import * as stylesheet from '~/style.json'
 
 // test data
 const FANEUIL_HALL: number[] = [-71.05625, 42.36]
@@ -33,22 +37,27 @@ const SCAT_DATA = [
     { coordinates: PR_HOUSE },
 ];
 
+const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM';
+
+const TILES_STYLE: StyleSpecification = {
+};
+
 
 function BadassMap(): JSX.Element {
-
-    const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM'
+    const MY_LOC = FANEUIL_HALL;
     const options: MapOptions = {
         container: 'solid-map-gl will override me',
-        style: TILES_URL,
+        style: stylesheet,
         maxPitch: 85,
         antialias: true,
     };
     const INITIAL_VIEW_STATE: Viewport = {
-        center: FANEUIL_HALL,
+        center: MY_LOC,
         zoom: 15.5,
         bearing: 160,
         pitch: 60,
     };
+
     const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEW_STATE);
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
@@ -64,7 +73,7 @@ function BadassMap(): JSX.Element {
             <MapArcLayer data={ARC_DATA} />
 
             <Marker
-                lngLat={FANEUIL_HALL}
+                lngLat={MY_LOC}
                 options={{ color: '#900' }}
             >
                 hi
@@ -74,6 +83,7 @@ function BadassMap(): JSX.Element {
                 rotateViewport={rotate()}
                 reverse={true}
             />
+
             <Show
                 when={rotate()}
                 fallback={<button onClick={toggleRotate}> Rotation On </button>}
