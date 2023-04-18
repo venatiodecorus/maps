@@ -545,6 +545,7 @@
       "source": "openmaptiles",
       "source-layer": "building",
       "filter": ["all", ["!has", "hide_3d"], ["has", "colour"]],
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-extrusion-base": ["get", "render_min_height"],
         "fill-extrusion-color": ["get", "colour"],

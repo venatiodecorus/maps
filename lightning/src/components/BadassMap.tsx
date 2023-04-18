@@ -16,11 +16,13 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import * as MAP_STYLE from '~/style.json'
 
 // test data
-const FANEUIL_HALL: number[] = [-71.05625, 42.36]
-const GD_TAVERN: number[] = [-71.056922, 42.360919]
-const BBC: number[] = [-71.103, 42.3145]
-const GARDEN: number[] = [-71.062228, 42.366303]
-const PR_HOUSE: number[] = [-71.053678, 42.363722]
+const FANEUIL_HALL = [-71.05625, 42.36]
+const GD_TAVERN = [-71.056922, 42.360919]
+const BBC = [-71.103, 42.3145]
+const GARDEN = [-71.062228, 42.366303]
+const PR_HOUSE = [-71.053678, 42.363722]
+
+const NYSE = [-74.0112660425065, 40.70689167578798]
 
 const ARC_DATA = [
     { source: FANEUIL_HALL, target: GD_TAVERN },
@@ -39,6 +41,12 @@ const SCAT_DATA = [
 
 const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM';
 
+const INITIAL_VIEWPORT: Viewport = {
+    center: NYSE,
+    zoom: 15.5,
+    bearing: 10,
+    pitch: 60,
+}
 
 function BadassMap(): JSX.Element {
     const MY_LOC = FANEUIL_HALL;
@@ -50,9 +58,31 @@ function BadassMap(): JSX.Element {
         renderWorldCopies: false,
     };
 
-    const [viewport, setViewport] = createSignal<Viewport>();
+    const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEWPORT);
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
+
+    function boston() {
+        setRotate(false);
+        setViewport({
+            ...viewport(),
+            center: FANEUIL_HALL,
+            zoom: 15.5,
+            bearing: 160,
+            pitch: 60,
+        });
+    }
+
+    function nyc() {
+        setRotate(false);
+        setViewport({
+            ...viewport(),
+            center: NYSE,
+            zoom: 15.5,
+            bearing: 10,
+            pitch: 60,
+        });
+    }
 
     return (
         <MapGL
@@ -62,8 +92,9 @@ function BadassMap(): JSX.Element {
             onViewportChange={(evt: Viewport) => setViewport(evt)}
             onDrag={() => setRotate(false)}
             onMouseDown={() => setRotate(false)}
-            onTouchStart={() => setRotate(false)}
             onZoomStart={() => setRotate(false)}
+            onTouchStart={() => setRotate(false)}
+            transitionType="easeTo"
         >
             <MapScatLayer data={SCAT_DATA} />
             <MapArcLayer data={ARC_DATA} />
@@ -80,12 +111,22 @@ function BadassMap(): JSX.Element {
                 reverse={true}
             />
 
-            <Show
-                when={rotate()}
-                fallback={<button onClick={toggleRotate}> Rotation On </button>}
-            >
-                <button onClick={toggleRotate}> Rotation Off </button>
-            </Show>
+            <ul>
+                <li>
+                    <Show
+                        when={rotate()}
+                        fallback={<button onClick={toggleRotate}> Rotation On </button>}
+                    >
+                        <button onClick={toggleRotate}> Rotation Off </button>
+                    </Show>
+                </li>
+                <li>
+                    <button onClick={boston}> Boston </button>
+                </li>
+                <li>
+                    <button onClick={nyc}> NYC </button>
+                </li>
+            </ul>
             <MapControls />
         </MapGL >
     );
