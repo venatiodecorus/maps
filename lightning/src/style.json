@@ -14,7 +14,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=Ukl2QNcQUCPAwuelQOvM"
+      "url": "http://localhost:3005/us-northeast"
     }
   },
   "sprite": "https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/sprite",

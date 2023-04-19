@@ -19,6 +19,7 @@ function MapControls(): JSX.Element {
         positionOptions: {
             enableHighAccuracy: false,
             timeout: 6000,
+            maximumAge: 0,
         },
         fitBoundsOptions: { maxZoom: 15 },
         trackUserLocation: false,

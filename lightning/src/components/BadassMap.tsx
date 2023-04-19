@@ -94,7 +94,7 @@ function BadassMap(): JSX.Element {
             onMouseDown={() => setRotate(false)}
             onZoomStart={() => setRotate(false)}
             onTouchStart={() => setRotate(false)}
-            transitionType="easeTo"
+            transitionType="flyTo"
         >
             <MapScatLayer data={SCAT_DATA} />
             <MapArcLayer data={ARC_DATA} />
