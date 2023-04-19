@@ -1,6 +1,7 @@
 {
   "version": 8,
   "name": "BadassMap",
+  "id": "BadassMap",
   "metadata": {
     "mapbox:autocomposite": false,
     "maputnik:renderer": "mbgljs",
@@ -24,7 +25,7 @@
       "id": "background",
       "type": "background",
       "layout": {"visibility": "visible"},
-      "paint": {"background-color": "rgba(212, 209, 196, 1)"}
+      "paint": {"background-color": "rgba(172, 169, 156, 1)"}
     },
     {
       "id": "landuse-residential",
@@ -521,7 +522,7 @@
       "filter": ["==", "$type", "LineString"],
       "layout": {
         "symbol-placement": "line",
-        "text-field": "{name}",
+        "text-field": "{name:latin}",
         "text-font": ["Klokantech Noto Sans Regular"],
         "text-letter-spacing": 0.1,
         "text-rotation-alignment": "map",
@@ -567,7 +568,7 @@
           "property": "render_min_height",
           "type": "identity"
         },
-        "fill-extrusion-color": "rgba(214, 204, 185, 1)",
+        "fill-extrusion-color": "rgba(194, 184, 165, 1)",
         "fill-extrusion-height": {
           "property": "render_height",
           "type": "identity"
@@ -591,7 +592,7 @@
       ],
       "layout": {
         "text-anchor": "center",
-        "text-field": "{name_en}",
+        "text-field": "{name:latin}",
         "text-font": ["Klokantech Noto Sans Regular"],
         "text-max-width": 6,
         "text-size": {"stops": [[6, 10], [12, 14]]},
@@ -613,7 +614,7 @@
       "maxzoom": 16,
       "filter": ["all", ["==", "$type", "Point"], ["==", "class", "city"]],
       "layout": {
-        "text-field": "{name_en}",
+        "text-field": "{name:latin}",
         "text-font": ["Klokantech Noto Sans Regular"],
         "text-max-width": 10,
         "text-size": {"stops": [[3, 12], [8, 16]]}
@@ -633,7 +634,7 @@
       "maxzoom": 12,
       "filter": ["all", ["==", "$type", "Point"], ["==", "class", "country"]],
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{name:latin}",
         "text-font": ["Klokantech Noto Sans Bold"],
         "text-max-width": 10,
         "text-size": {"stops": [[3, 12], [8, 22]]}
@@ -645,6 +646,5 @@
         "text-halo-width": 2
       }
     }
-  ],
-  "id": "klokantech-3d"
+  ]
 }
