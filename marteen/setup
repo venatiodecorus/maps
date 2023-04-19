@@ -1,0 +1,39 @@
+#!/bin/bash
+
+clear
+DATE_UTC=$(date -u +"%d%m%y")
+REGION=us-northeast
+REGION_DATA=$REGION-$DATE_UTC.osm.pbf
+REGION_TILES=$REGION.mbtiles
+
+
+cd ./build
+if [ ! -f "./data/$REGION_DATA" ]; then
+    echo Downloading OSM data...
+    wget -cO ./data/$REGION_DATA https://download.geofabrik.de/north-america/$REGION-latest.osm.pbf
+else
+    echo $REGION_DATA already exists
+fi
+if [ ! -f "../dist/data/$REGION_TILES" ]; then
+    echo Creating $REGION_TILES...
+    tilemaker \
+        --input ./data/$REGION_DATA \
+        --output ../dist/data/$REGION.mbtiles \
+        --process ./resources/process-openmaptiles.lua \
+        --config ./resources/config-openmaptiles.json
+else
+    echo tiles already exist
+fi
+
+
+cd ../dist
+if [ ! -f martin ]; then
+    echo Downloading and extracting martin...
+    wget -c https://github.com/maplibre/martin/releases/latest/download/martin-Linux-x86_64.tar.gz &&
+        tar -xzvf martin-Linux-x86_64.tar.gz
+else
+    echo martin already exists
+fi
+
+
+echo done!
