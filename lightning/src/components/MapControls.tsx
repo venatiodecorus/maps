@@ -14,7 +14,6 @@ function MapControls(): JSX.Element {
         showZoom: true,
         visualizePitch: true,
     }
-
     const GEO_OPTIONS: GeolocateOptions = {
         positionOptions: {
             enableHighAccuracy: false,
@@ -26,12 +25,14 @@ function MapControls(): JSX.Element {
         showAccuracyCircle: false,
         showUserLocation: true,
     }
-
+    const ATTRIB_OPTIONS: AttributionOptions = {
+        compact: false,
+        customAttribution: 'OpenStreetMap',
+    }
     const SCALE_OPTIONS: ScaleOptions = {
         maxWidth: 100,
         unit: 'imperial',
     }
-
     return (
         <>
             <Control
@@ -39,13 +40,16 @@ function MapControls(): JSX.Element {
                 position="top-right"
                 options={NAV_OPTIONS}
             />
-
             <Control
                 type="geolocate"
                 position="top-right"
                 options={GEO_OPTIONS}
             />
-
+            <Control
+                type="attribution"
+                position="bottom-right"
+                options={ATTRIB_OPTIONS}
+            />
             <Control
                 type="scale"
                 position="bottom-left"
