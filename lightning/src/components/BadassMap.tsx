@@ -1,5 +1,5 @@
 import MapGL, { Viewport, Camera } from 'solid-map-gl';
-import { createSignal, Show, createEffect, createResource, For, Accessor } from 'solid-js';
+import { createSignal, Show, Suspense, createEffect, createResource, For, Accessor } from 'solid-js';
 import { useRouteData } from 'solid-start';
 import * as maplibre from 'maplibre-gl';
 import MapControls from './MapControls';
@@ -123,17 +123,17 @@ const TEST_PACKET: StationRequest = {
     Distance: 10,
     CountLimit: 10,
 }
+async function fetchStations() {
+    const payload: RequestInit = {
+        method: "POST",
+        cache: 'default',
+        body: JSON.stringify(TEST_PACKET),
+        headers: { 'Content-Type': 'application/json' },
+    }
+    const response = await fetch("https://kevinfwu.com/getnearest", payload);
+    return await response.json() as StationResponse[];
+};
 function BadassMap(): JSX.Element {
-    async function fetchStations() {
-        const payload: RequestInit = {
-            method: "POST",
-            cache: 'default',
-            body: JSON.stringify(TEST_PACKET),
-            headers: { 'Content-Type': 'application/json' },
-        }
-        const response = await fetch("https://kevinfwu.com/getnearest", payload);
-        return await response.json() as StationResponse[];
-    };
     const [stations] = createResource(fetchStations);
 
     const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEWPORT);
@@ -185,9 +185,11 @@ function BadassMap(): JSX.Element {
                 <li><button onClick={() => flyTo({ ...viewport(), ...BOS })}> Boston </button> </li>
                 <li><button onClick={() => flyTo({ ...viewport(), ...NYC })}> NYC </button> </li>
                 <li><button onClick={() => console.log(stations())}> log stations </button> </li>
-                <For each={stations()}>
-                    {(station) => <li>{station.Dist}</li>}
-                </For>
+                <Suspense fallback={<li>Loading stations...</li>}>
+                    <For each={stations()}>
+                        {(station) => <li>{station.Dist}</li>}
+                    </For>
+                </Suspense>
             </ul>
 
             <MapControls />
