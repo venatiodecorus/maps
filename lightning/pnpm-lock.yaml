@@ -7,6 +7,9 @@ dependencies:
   '@deck.gl/mapbox':
     specifier: ^8.9.7
     version: 8.9.7(@deck.gl/core@8.9.7)
+  '@deck.gl/mesh-layers':
+    specifier: ^8.9.7
+    version: 8.9.7(@deck.gl/core@8.9.7)(@loaders.gl/images@3.3.3)(@luma.gl/core@8.5.19)(@luma.gl/engine@8.5.19)(@luma.gl/gltools@8.5.19)(@luma.gl/webgl@8.5.19)
   '@solidjs/meta':
     specifier: ^0.28.4
     version: 0.28.4(solid-js@1.7.3)
@@ -34,8 +37,8 @@ dependencies:
 
 devDependencies:
   '@types/node':
-    specifier: ^18.15.11
-    version: 18.15.11
+    specifier: ^18.15.12
+    version: 18.15.12
   esbuild:
     specifier: ^0.14.54
     version: 0.14.54
@@ -50,7 +53,7 @@ devDependencies:
     version: 4.9.5
   vite:
     specifier: ^4.2.2
-    version: 4.2.2(@types/node@18.15.11)
+    version: 4.2.2(@types/node@18.15.12)
 
 packages:
 
@@ -1209,6 +1212,25 @@ packages:
       '@types/mapbox-gl': 2.7.10
     dev: false
 
+  /@deck.gl/mesh-layers@8.9.7(@deck.gl/core@8.9.7)(@loaders.gl/images@3.3.3)(@luma.gl/core@8.5.19)(@luma.gl/engine@8.5.19)(@luma.gl/gltools@8.5.19)(@luma.gl/webgl@8.5.19):
+    resolution: {integrity: sha512-XoviQjafSmdOOrTFQuCRhPggtTLzKWDvu1gTPb0XJWrVoPRmJWyoGmStSVubrBZcbpAHocFSwLavs9yGx5H8JA==}
+    peerDependencies:
+      '@deck.gl/core': ^8.0.0
+      '@luma.gl/core': ^8.0.0
+    dependencies:
+      '@deck.gl/core': 8.9.7
+      '@loaders.gl/gltf': 3.3.3
+      '@luma.gl/constants': 8.5.19
+      '@luma.gl/core': 8.5.19
+      '@luma.gl/experimental': 8.5.19(@loaders.gl/gltf@3.3.3)(@loaders.gl/images@3.3.3)(@luma.gl/engine@8.5.19)(@luma.gl/gltools@8.5.19)(@luma.gl/shadertools@8.5.19)(@luma.gl/webgl@8.5.19)
+      '@luma.gl/shadertools': 8.5.19
+    transitivePeerDependencies:
+      - '@loaders.gl/images'
+      - '@luma.gl/engine'
+      - '@luma.gl/gltools'
+      - '@luma.gl/webgl'
+    dev: false
+
   /@esbuild/android-arm64@0.17.17:
     resolution: {integrity: sha512-jaJ5IlmaDLFPNttv0ofcwy/cfeY4bh/n705Tgh+eLObbGtQBK3EPAu+CzL95JVE4nFAliyrnEu0d32Q5foavqg==}
     engines: {node: '>=12'}
@@ -1445,6 +1467,26 @@ packages:
       '@probe.gl/log': 3.6.0
     dev: false
 
+  /@loaders.gl/draco@3.3.3:
+    resolution: {integrity: sha512-26r253By6Q9n2xQWG2Dht+VDCqQGVGetM1lJXa3GLrWxNNz4m7et/q9v8TC270/65BgB7Uz58NlZdpweeeIEqA==}
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@loaders.gl/loader-utils': 3.3.3
+      '@loaders.gl/schema': 3.3.3
+      '@loaders.gl/worker-utils': 3.3.3
+      draco3d: 1.5.5
+    dev: false
+
+  /@loaders.gl/gltf@3.3.3:
+    resolution: {integrity: sha512-qE2IqWTGJ+36om90t8GJQneGNfYdi/u7R4twM3IpmOVP5zH5Oh4JpJY4JPy8cGmni77UVVZqahNa/czCOIeXJw==}
+    dependencies:
+      '@loaders.gl/draco': 3.3.3
+      '@loaders.gl/images': 3.3.3
+      '@loaders.gl/loader-utils': 3.3.3
+      '@loaders.gl/textures': 3.3.3
+      '@math.gl/core': 3.6.3
+    dev: false
+
   /@loaders.gl/images@3.3.3:
     resolution: {integrity: sha512-IFRs3TuqaBI4crY9x3BhD+FbayiwQww7zH4PUs3vpMRQYVf593+wngW1rMbl7zgNnkFbudzxaTr8MW8VaWriCA==}
     dependencies:
@@ -1463,6 +1505,17 @@ packages:
     resolution: {integrity: sha512-l06pdG9pn2SABUgFm7N1JmfddU7KlBvGaxXlLbPhun+02Z0m2ExASHy0mEU7DVsdbfsbCyYDYqxuvn1O7yHX+A==}
     dependencies:
       '@types/geojson': 7946.0.10
+    dev: false
+
+  /@loaders.gl/textures@3.3.3:
+    resolution: {integrity: sha512-0osXsVIfjjWni/IvNSykZX/x3i0pQLo32/APV7mgP/1B3R6mbZfEl2Y1ESVdlVuqQoGGXWIEYyFnBF8NKPJyuA==}
+    dependencies:
+      '@loaders.gl/images': 3.3.3
+      '@loaders.gl/loader-utils': 3.3.3
+      '@loaders.gl/schema': 3.3.3
+      '@loaders.gl/worker-utils': 3.3.3
+      ktx-parse: 0.0.4
+      texture-compressor: 1.0.2
     dev: false
 
   /@loaders.gl/worker-utils@3.3.3:
@@ -1498,6 +1551,27 @@ packages:
       '@probe.gl/env': 3.6.0
       '@probe.gl/stats': 3.6.0
       '@types/offscreencanvas': 2019.7.0
+    dev: false
+
+  /@luma.gl/experimental@8.5.19(@loaders.gl/gltf@3.3.3)(@loaders.gl/images@3.3.3)(@luma.gl/engine@8.5.19)(@luma.gl/gltools@8.5.19)(@luma.gl/shadertools@8.5.19)(@luma.gl/webgl@8.5.19):
+    resolution: {integrity: sha512-shsql6mD3Ta7S1fghxvuE2ETtB5uo36TOzkhBLhZdnifOQJFKF7tcKSP0DQ5o+XfiySgSDtAEgRhbhpMe8aGBg==}
+    peerDependencies:
+      '@loaders.gl/gltf': ^3.0.0
+      '@loaders.gl/images': ^3.0.0
+      '@luma.gl/engine': ^8.4.0
+      '@luma.gl/gltools': ^8.4.0
+      '@luma.gl/shadertools': ^8.4.0
+      '@luma.gl/webgl': ^8.4.0
+    dependencies:
+      '@loaders.gl/gltf': 3.3.3
+      '@loaders.gl/images': 3.3.3
+      '@luma.gl/constants': 8.5.19
+      '@luma.gl/engine': 8.5.19
+      '@luma.gl/gltools': 8.5.19
+      '@luma.gl/shadertools': 8.5.19
+      '@luma.gl/webgl': 8.5.19
+      '@math.gl/core': 3.6.3
+      earcut: 2.2.4
     dev: false
 
   /@luma.gl/gltools@8.5.19:
@@ -1780,8 +1854,8 @@ packages:
       '@types/pbf': 3.0.2
     dev: false
 
-  /@types/node@18.15.11:
-    resolution: {integrity: sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==}
+  /@types/node@18.15.12:
+    resolution: {integrity: sha512-Wha1UwsB3CYdqUm2PPzh/1gujGCNtWVUYF0mB00fJFoR4gTyWTDPjSm+zBF787Ahw8vSGgBja90MkgFwvB86Dg==}
 
   /@types/offscreencanvas@2019.7.0:
     resolution: {integrity: sha512-PGcyveRIpL1XIqK8eBsmRBt76eFgtzuPiSTyKHZxnGemp2yzGzWpjYKAfK3wIMiU7eH+851yEpiuP8JZerTmWg==}
@@ -1828,6 +1902,12 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+
+  /argparse@1.0.10:
+    resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
+    dependencies:
+      sprintf-js: 1.0.3
+    dev: false
 
   /axios@0.25.0(debug@4.3.4):
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
@@ -2072,6 +2152,10 @@ packages:
   /dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
+
+  /draco3d@1.5.5:
+    resolution: {integrity: sha512-JVuNV0EJzD3LBYhGyIXJLeBID/EVtmFO1ZNhAYflTgiMiAJlbhXQmRRda/azjc8MRVMHh0gqGhiqHUo5dIXM8Q==}
+    dev: false
 
   /earcut@2.2.4:
     resolution: {integrity: sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==}
@@ -2513,6 +2597,12 @@ packages:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
 
+  /image-size@0.7.5:
+    resolution: {integrity: sha512-Hiyv+mXHfFEP7LzUL/llg9RwFxxY+o9N3JVLIeG5E7iFIFAalxvRU9UZthBdYDEVnzHMgjnKJPPpay5BWf1g9g==}
+    engines: {node: '>=6.9.0'}
+    hasBin: true
+    dev: false
+
   /inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
@@ -2628,6 +2718,10 @@ packages:
   /kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /ktx-parse@0.0.4:
+    resolution: {integrity: sha512-LY3nrmfXl+wZZdPxgJ3ZmLvG+wkOZZP3/dr4RbQj1Pk3Qwz44esOOSFFVQJcNWpXAtiNIC66WgXufX/SYgYz6A==}
     dev: false
 
   /lodash.debounce@4.0.8:
@@ -3020,7 +3114,7 @@ packages:
       solid-start: 0.2.26(@solidjs/meta@0.28.4)(@solidjs/router@0.8.2)(solid-js@1.7.3)(solid-start-node@0.2.26)(vite@4.2.2)
       terser: 5.17.1
       undici: 5.21.2
-      vite: 4.2.2(@types/node@18.15.11)
+      vite: 4.2.2(@types/node@18.15.12)
     transitivePeerDependencies:
       - supports-color
 
@@ -3090,7 +3184,7 @@ packages:
       solid-start-node: 0.2.26(solid-start@0.2.26)(undici@5.21.2)(vite@4.2.2)
       terser: 5.17.1
       undici: 5.21.2
-      vite: 4.2.2(@types/node@18.15.11)
+      vite: 4.2.2(@types/node@18.15.12)
       vite-plugin-inspect: 0.7.23(rollup@3.20.6)(vite@4.2.2)
       vite-plugin-solid: 2.7.0(solid-js@1.7.3)(vite@4.2.2)
       wait-on: 6.0.1(debug@4.3.4)
@@ -3114,6 +3208,10 @@ packages:
   /source-map@0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
+
+  /sprintf-js@1.0.3:
+    resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+    dev: false
 
   /statuses@1.5.0:
     resolution: {integrity: sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==}
@@ -3162,6 +3260,14 @@ packages:
       acorn: 8.8.2
       commander: 2.20.3
       source-map-support: 0.5.21
+
+  /texture-compressor@1.0.2:
+    resolution: {integrity: sha512-dStVgoaQ11mA5htJ+RzZ51ZxIZqNOgWKAIvtjLrW1AliQQLCmrDqNzQZ8Jh91YealQ95DXt4MEduLzJmbs6lig==}
+    hasBin: true
+    dependencies:
+      argparse: 1.0.10
+      image-size: 0.7.5
+    dev: false
 
   /tinyqueue@2.0.3:
     resolution: {integrity: sha512-ppJZNDuKGgxzkHihX8v9v9G5f+18gzaTfrukGrq6ueg0lmH4nqVnA2IPG0AEH3jKEk2GRJCUhDoqpoiw3PHLBA==}
@@ -3262,7 +3368,7 @@ packages:
       fs-extra: 11.1.1
       picocolors: 1.0.0
       sirv: 2.0.2
-      vite: 4.2.2(@types/node@18.15.11)
+      vite: 4.2.2(@types/node@18.15.12)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -3280,12 +3386,12 @@ packages:
       merge-anything: 5.1.4
       solid-js: 1.7.3
       solid-refresh: 0.5.2(solid-js@1.7.3)
-      vite: 4.2.2(@types/node@18.15.11)
+      vite: 4.2.2(@types/node@18.15.12)
       vitefu: 0.2.4(vite@4.2.2)
     transitivePeerDependencies:
       - supports-color
 
-  /vite@4.2.2(@types/node@18.15.11):
+  /vite@4.2.2(@types/node@18.15.12):
     resolution: {integrity: sha512-PcNtT5HeDxb3QaSqFYkEum8f5sCVe0R3WK20qxgIvNBZPXU/Obxs/+ubBMeE7nLWeCo2LDzv+8hRYSlcaSehig==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3310,7 +3416,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.15.12
       esbuild: 0.17.17
       postcss: 8.4.23
       resolve: 1.22.2
@@ -3326,7 +3432,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.2.2(@types/node@18.15.11)
+      vite: 4.2.2(@types/node@18.15.12)
 
   /vt-pbf@3.1.3:
     resolution: {integrity: sha512-2LzDFzt0mZKZ9IpVF2r69G9bXaP2Q2sArJCmcCgvfTdCCZzSyz4aCLoQyUilu37Ll56tCblIZrXFIjNUpGIlmA==}

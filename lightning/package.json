@@ -7,7 +7,7 @@
     },
     "type": "module",
     "devDependencies": {
-        "@types/node": "^18.15.11",
+        "@types/node": "^18.15.12",
         "esbuild": "^0.14.54",
         "postcss": "^8.4.23",
         "solid-start-node": "^0.2.26",
@@ -17,6 +17,7 @@
     "dependencies": {
         "@deck.gl/layers": "^8.9.7",
         "@deck.gl/mapbox": "^8.9.7",
+        "@deck.gl/mesh-layers": "^8.9.7",
         "@solidjs/meta": "^0.28.4",
         "@solidjs/router": "^0.8.2",
         "mapbox-gl": "npm:empty-npm-package@^1.0.0",
