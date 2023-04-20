@@ -1,7 +1,9 @@
-import MapGL, { Viewport, Camera, Marker } from 'solid-map-gl';
-import { createSignal, Show } from 'solid-js';
+import MapGL, { Viewport, Camera } from 'solid-map-gl';
+import { createSignal, Show, createEffect, createResource, For, Accessor } from 'solid-js';
+import { useRouteData } from 'solid-start';
 import * as maplibre from 'maplibre-gl';
 import MapControls from './MapControls';
+import { createStore } from 'solid-js/store';
 
 // deck.gl
 import { unstable_clientOnly } from 'solid-start';
@@ -10,12 +12,45 @@ const MapArcLayer = unstable_clientOnly(() => import('~/components/MapArcLayer')
 
 import type { JSX } from 'solid-js';
 import type { MapOptions } from 'maplibre-gl';
-import type { StyleSpecification } from 'maplibre-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 import * as MAP_STYLE from '~/style.json';
 
-const TEST_LOCS = {
+type ChargingStation = {
+    Name: string
+    PhoneNumer: string
+    IntersectionDirections: string
+    AccessTime: string
+    Connectors: string[]
+    Network: string
+    Pricing: string
+    RestrictedAccess: boolean
+    CntLevel2Chargers: number
+    CntLevel3Chargers: number
+};
+type Location = {
+    StreetAddresss: string
+    City: string
+    State: string
+    Country: string
+    Zip: string
+    GeocodeStatus: string
+    Coordinates: string
+    CoordinateString: string
+    Stations: ChargingStation[]
+};
+type StationRequest = {
+    Latitude: number
+    Longitude: number
+    Distance: number
+    CountLimit: number
+};
+type StationResponse = {
+    Dist: number
+    Loc: Location
+}
+
+const TEST = {
     FAN: {
         LngLatLike: { lng: -71.05625, lat: 42.36, },
         coords: [-71.05625, 42.36]
@@ -40,60 +75,66 @@ const TEST_LOCS = {
         LngLatLike: { lng: -74.0112660425065, lat: 40.70689167578798 },
         coords: [-74.0112660425065, 40.70689167578798],
     },
-}
+};
 const ARC_DATA = [
-    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.GDT.coords },
-    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.BBC.coords },
-    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.GAR.coords },
-    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.PRH.coords },
+    { source: TEST.FAN.coords, target: TEST.GDT.coords },
+    { source: TEST.FAN.coords, target: TEST.BBC.coords },
+    { source: TEST.FAN.coords, target: TEST.GAR.coords },
+    { source: TEST.FAN.coords, target: TEST.PRH.coords },
 ];
 const SCAT_DATA = [
-    { coordinates: TEST_LOCS.FAN.coords },
-    { coordinates: TEST_LOCS.GDT.coords },
-    { coordinates: TEST_LOCS.BBC.coords },
-    { coordinates: TEST_LOCS.GAR.coords },
-    { coordinates: TEST_LOCS.PRH.coords },
-    { coordinates: TEST_LOCS.NSE.coords },
+    { coordinates: TEST.FAN.coords },
+    { coordinates: TEST.GDT.coords },
+    { coordinates: TEST.BBC.coords },
+    { coordinates: TEST.GAR.coords },
+    { coordinates: TEST.PRH.coords },
+    { coordinates: TEST.NSE.coords },
 ];
-const USER_LOC = TEST_LOCS.FAN.LngLatLike;
+
+const USER_LOC = TEST.FAN.LngLatLike;
 const INITIAL_VIEWPORT: Viewport = {
     center: USER_LOC,
     zoom: 15.5,
     bearing: 10,
     pitch: 60,
 };
-type ChargingStation = {
-    Name: string
-    PhoneNumer: string
-    IntersectionDirections: string
-    AccessTime: string
-    Connectors: string[]
-    Network: string
-    Pricing: string
-    RestrictedAccess: boolean
-    CntLevel2Chargers: number
-    CntLevel3Chargers: number
+const options: MapOptions = {
+    container: 'solid-map-gl will override me',
+    style: MAP_STYLE,
+    maxPitch: 85,
+    antialias: true,
+    renderWorldCopies: false,
 };
-type Location = {
-    StreetAddresss: string
-    City: string
-    State: string
-    Country: string
-    Zip: string
-    GeocodeStatus: string
-    Coordinates: string
-    CoordinateString: string
-    Stations: ChargingStation[]
+const BOS: Viewport = {
+    center: TEST.FAN.coords,
+    zoom: 15.5,
+    bearing: 160,
+    pitch: 60,
 };
-
+const NYC: Viewport = {
+    center: TEST.NSE.coords,
+    zoom: 15.5,
+    bearing: 10,
+    pitch: 60,
+};
+const TEST_PACKET: StationRequest = {
+    Latitude: USER_LOC.lat,
+    Longitude: USER_LOC.lng,
+    Distance: 10,
+    CountLimit: 10,
+}
 function BadassMap(): JSX.Element {
-    const options: MapOptions = {
-        container: 'solid-map-gl will override me',
-        style: MAP_STYLE,
-        maxPitch: 85,
-        antialias: true,
-        renderWorldCopies: false,
+    async function fetchStations() {
+        const payload: RequestInit = {
+            method: "POST",
+            cache: 'default',
+            body: JSON.stringify(TEST_PACKET),
+            headers: { 'Content-Type': 'application/json' },
+        }
+        const response = await fetch("https://kevinfwu.com/getnearest", payload);
+        return await response.json() as StationResponse[];
     };
+    const [stations] = createResource(fetchStations);
 
     const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEWPORT);
     const [rotate, setRotate] = createSignal<boolean>(true);
@@ -102,18 +143,6 @@ function BadassMap(): JSX.Element {
     function flyTo(viewUpdate: Viewport) {
         setRotate<boolean>(false)
         setViewport<Viewport>(viewUpdate);
-    };
-    const BOS: Viewport = {
-        center: TEST_LOCS.FAN.coords,
-        zoom: 15.5,
-        bearing: 160,
-        pitch: 60,
-    };
-    const NYC: Viewport = {
-        center: TEST_LOCS.NSE.coords,
-        zoom: 15.5,
-        bearing: 10,
-        pitch: 60,
     };
     function eventHandler(event: any) {
         switch (event.type) {
@@ -131,7 +160,6 @@ function BadassMap(): JSX.Element {
                 break;
         };
     };
-
     return (
         <MapGL
             mapLib={maplibre}
@@ -156,6 +184,10 @@ function BadassMap(): JSX.Element {
                     <button onClick={toggleRotate}> Rotation Off </button> </Show> </li>
                 <li><button onClick={() => flyTo({ ...viewport(), ...BOS })}> Boston </button> </li>
                 <li><button onClick={() => flyTo({ ...viewport(), ...NYC })}> NYC </button> </li>
+                <li><button onClick={() => console.log(stations())}> log stations </button> </li>
+                <For each={stations()}>
+                    {(station) => <li>{station.Dist}</li>}
+                </For>
             </ul>
 
             <MapControls />
