@@ -3,6 +3,7 @@ import { MapboxLayer } from '@deck.gl/mapbox/typed';
 import { Layer } from 'solid-map-gl';
 
 import type { JSX } from 'solid-js';
+import type { ScatterplotLayerProps } from '@deck.gl/layers/typed';
 
 
 function MapScatLayer(props): JSX.Element {

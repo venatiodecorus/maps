@@ -13,43 +13,80 @@ import type { MapOptions } from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-import * as MAP_STYLE from '~/style.json'
+import * as MAP_STYLE from '~/style.json';
 
-// test data
-const FANEUIL_HALL = [-71.05625, 42.36]
-const GD_TAVERN = [-71.056922, 42.360919]
-const BBC = [-71.103, 42.3145]
-const GARDEN = [-71.062228, 42.366303]
-const PR_HOUSE = [-71.053678, 42.363722]
-
-const NYSE = [-74.0112660425065, 40.70689167578798]
-
+const TEST_LOCS = {
+    FAN: {
+        LngLatLike: { lng: -71.05625, lat: 42.36, },
+        coords: [-71.05625, 42.36]
+    },
+    GDT: {
+        LngLatLike: { lng: -71.056922, lat: 42.360919 },
+        coords: [-71.056922, 42.360919],
+    },
+    BBC: {
+        LngLatLike: { lng: -71.103, lat: 42.3145 },
+        coords: [-71.103, 42.3145],
+    },
+    GAR: {
+        LngLatLike: { lng: -71.062228, lat: 42.366303 },
+        coords: [-71.062228, 42.366303],
+    },
+    PRH: {
+        LngLatLike: { lng: -71.053678, lat: 42.363722 },
+        coords: [-71.053678, 42.363722],
+    },
+    NSE: {
+        LngLatLike: { lng: -74.0112660425065, lat: 40.70689167578798 },
+        coords: [-74.0112660425065, 40.70689167578798],
+    },
+}
 const ARC_DATA = [
-    { source: FANEUIL_HALL, target: GD_TAVERN },
-    { source: FANEUIL_HALL, target: BBC },
-    { source: FANEUIL_HALL, target: GARDEN },
-    { source: FANEUIL_HALL, target: PR_HOUSE },
+    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.GDT.coords },
+    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.BBC.coords },
+    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.GAR.coords },
+    { source: TEST_LOCS.FAN.coords, target: TEST_LOCS.PRH.coords },
 ];
-
 const SCAT_DATA = [
-    { coordinates: FANEUIL_HALL },
-    { coordinates: GD_TAVERN },
-    { coordinates: BBC },
-    { coordinates: GARDEN },
-    { coordinates: PR_HOUSE },
+    { coordinates: TEST_LOCS.FAN.coords },
+    { coordinates: TEST_LOCS.GDT.coords },
+    { coordinates: TEST_LOCS.BBC.coords },
+    { coordinates: TEST_LOCS.GAR.coords },
+    { coordinates: TEST_LOCS.PRH.coords },
+    { coordinates: TEST_LOCS.NSE.coords },
 ];
-
-const TILES_URL: string = 'https://api.maptiler.com/maps/024da34e-fa66-4cb3-8f5f-0466b51e972e/style.json?key=Ukl2QNcQUCPAwuelQOvM';
-
+const USER_LOC = TEST_LOCS.FAN.LngLatLike;
 const INITIAL_VIEWPORT: Viewport = {
-    center: NYSE,
+    center: USER_LOC,
     zoom: 15.5,
     bearing: 10,
     pitch: 60,
-}
+};
+type ChargingStation = {
+    Name: string
+    PhoneNumer: string
+    IntersectionDirections: string
+    AccessTime: string
+    Connectors: string[]
+    Network: string
+    Pricing: string
+    RestrictedAccess: boolean
+    CntLevel2Chargers: number
+    CntLevel3Chargers: number
+};
+type Location = {
+    StreetAddresss: string
+    City: string
+    State: string
+    Country: string
+    Zip: string
+    GeocodeStatus: string
+    Coordinates: string
+    CoordinateString: string
+    Stations: ChargingStation[]
+};
 
 function BadassMap(): JSX.Element {
-    const MY_LOC = FANEUIL_HALL;
     const options: MapOptions = {
         container: 'solid-map-gl will override me',
         style: MAP_STYLE,
@@ -62,27 +99,38 @@ function BadassMap(): JSX.Element {
     const [rotate, setRotate] = createSignal<boolean>(true);
     const toggleRotate = () => setRotate<boolean>(!rotate());
 
-    function boston() {
-        setRotate(false);
-        setViewport({
-            ...viewport(),
-            center: FANEUIL_HALL,
-            zoom: 15.5,
-            bearing: 160,
-            pitch: 60,
-        });
-    }
-
-    function nyc() {
-        setRotate(false);
-        setViewport({
-            ...viewport(),
-            center: NYSE,
-            zoom: 15.5,
-            bearing: 10,
-            pitch: 60,
-        });
-    }
+    function flyTo(viewUpdate: Viewport) {
+        setRotate<boolean>(false)
+        setViewport<Viewport>(viewUpdate);
+    };
+    const BOS: Viewport = {
+        center: TEST_LOCS.FAN.coords,
+        zoom: 15.5,
+        bearing: 160,
+        pitch: 60,
+    };
+    const NYC: Viewport = {
+        center: TEST_LOCS.NSE.coords,
+        zoom: 15.5,
+        bearing: 10,
+        pitch: 60,
+    };
+    function eventHandler(event: any) {
+        switch (event.type) {
+            case 'mousedown':
+                setRotate(false)
+                break;
+            case 'zoomstart':
+                setRotate(false)
+                break;
+            case 'touchstart':
+                setRotate(false)
+                break;
+            case 'drag':
+                setRotate(false)
+                break;
+        };
+    };
 
     return (
         <MapGL
@@ -90,43 +138,26 @@ function BadassMap(): JSX.Element {
             options={options}
             viewport={viewport()}
             onViewportChange={(evt: Viewport) => setViewport(evt)}
-            onDrag={() => setRotate(false)}
-            onMouseDown={() => setRotate(false)}
-            onZoomStart={() => setRotate(false)}
-            onTouchStart={() => setRotate(false)}
+            onDrag={eventHandler}
+            onMouseDown={eventHandler}
+            onZoomStart={eventHandler}
+            onTouchStart={eventHandler}
             transitionType="flyTo"
         >
             <MapScatLayer data={SCAT_DATA} />
             <MapArcLayer data={ARC_DATA} />
 
-            <Marker
-                lngLat={MY_LOC}
-                options={{ color: '#900' }}
-            >
-                hi
-            </Marker>
+            <Camera rotateViewport={rotate()} reverse={true} />
 
-            <Camera
-                rotateViewport={rotate()}
-                reverse={true}
-            />
+            <ul> <li>
+                <Show when={rotate()}
+                    fallback={<button onClick={toggleRotate}> Rotation On </button>} >
 
-            <ul>
-                <li>
-                    <Show
-                        when={rotate()}
-                        fallback={<button onClick={toggleRotate}> Rotation On </button>}
-                    >
-                        <button onClick={toggleRotate}> Rotation Off </button>
-                    </Show>
-                </li>
-                <li>
-                    <button onClick={boston}> Boston </button>
-                </li>
-                <li>
-                    <button onClick={nyc}> NYC </button>
-                </li>
+                    <button onClick={toggleRotate}> Rotation Off </button> </Show> </li>
+                <li><button onClick={() => flyTo({ ...viewport(), ...BOS })}> Boston </button> </li>
+                <li><button onClick={() => flyTo({ ...viewport(), ...NYC })}> NYC </button> </li>
             </ul>
+
             <MapControls />
         </MapGL >
     );
