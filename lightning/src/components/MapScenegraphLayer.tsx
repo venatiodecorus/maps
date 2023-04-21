@@ -4,25 +4,28 @@ import { Layer } from 'solid-map-gl';
 
 import type { JSX } from 'solid-js';
 
-
-function MapScenegraphLayer(props): JSX.Element {
+function MapScenegraphLayer(props: any) {
 
     const scenegraphLayer = new MapboxLayer({
-        id: 'deckgl-arc',
+        id: 'deckgl-scenegraph',
         type: ScenegraphLayer,
         data: props.data,
-        getSourcePosition: (d: any) => d.source,
-        getTargetPosition: (d: any) => d.target,
-        getSourceColor: [200, 0, 0],
-        getTargetColor: [0, 230, 0],
-        getWidth: 6,
+        pickable: true,
+        scenegraph: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoxAnimated/glTF-Binary/BoxAnimated.glb',
+        getPosition: d => d.coordinates,
+        getOrientation: d => [0, Math.random() * 180, 90],
+        _animations: {
+            '*': { speed: 5 }
+        },
+        sizeScale: 500,
+        _lighting: 'pbr'
     });
 
     return (
         <>
             <Layer customLayer={scenegraphLayer} />
         </>
-    );
+    ) as JSX.Element;
 };
 
 export default MapScenegraphLayer;

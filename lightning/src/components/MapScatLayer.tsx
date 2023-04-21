@@ -3,11 +3,8 @@ import { MapboxLayer } from '@deck.gl/mapbox/typed';
 import { Layer } from 'solid-map-gl';
 
 import type { JSX } from 'solid-js';
-import type { ScatterplotLayerProps } from '@deck.gl/layers/typed';
 
-
-function MapScatLayer(props): JSX.Element {
-
+function MapScatLayer(props: any) {
     const scatterplotLayer = new MapboxLayer({
         id: 'deckgl-scatterplot',
         type: ScatterplotLayer,
@@ -21,7 +18,7 @@ function MapScatLayer(props): JSX.Element {
         <>
             <Layer customLayer={scatterplotLayer} />
         </>
-    );
+    ) as JSX.Element;
 };
 
 export default MapScatLayer;

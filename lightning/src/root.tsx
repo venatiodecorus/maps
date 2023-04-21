@@ -1,19 +1,9 @@
 // @refresh reload
 import { Suspense } from "solid-js";
-import {
-    A,
-    Body,
-    ErrorBoundary,
-    FileRoutes,
-    Head,
-    Html,
-    Meta,
-    Routes,
-    Scripts,
-    Title,
-} from "solid-start";
+import { A, Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from "solid-start";
 import "./root.css";
-import BadassMap from '~/components/BadassMap';
+import BadassMap from './components/BadassMap';
+import { StationsProvider } from "./components/StationsContext";
 
 export default function Root() {
     return (
@@ -26,16 +16,18 @@ export default function Root() {
             <Body>
                 <Suspense>
                     <ErrorBoundary>
-                        <A href="/">Map</A>
-                        <A href="/about">About</A>
-                        <BadassMap />
-                        <Routes>
-                            <FileRoutes />
-                        </Routes>
+                        <StationsProvider>
+                            <A href="/">Map</A>
+                            <A href="/about">About</A>
+                            <Routes>
+                                <FileRoutes />
+                            </Routes>
+                            <BadassMap />
+                        </StationsProvider>
                     </ErrorBoundary>
                 </Suspense>
                 <Scripts />
             </Body>
         </Html>
     );
-}
+};

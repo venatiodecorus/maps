@@ -8,12 +8,12 @@ import type {
 
 import type { JSX } from 'solid-js';
 
-function MapControls(): JSX.Element {
+function MapControls() {
     const NAV_OPTIONS: NavigationOptions = {
         showCompass: true,
         showZoom: true,
         visualizePitch: true,
-    }
+    };
     const GEO_OPTIONS: GeolocateOptions = {
         positionOptions: {
             enableHighAccuracy: false,
@@ -24,15 +24,15 @@ function MapControls(): JSX.Element {
         trackUserLocation: false,
         showAccuracyCircle: false,
         showUserLocation: true,
-    }
+    };
     const ATTRIB_OPTIONS: AttributionOptions = {
         compact: false,
         customAttribution: 'OpenStreetMap',
-    }
+    };
     const SCALE_OPTIONS: ScaleOptions = {
         maxWidth: 100,
         unit: 'imperial',
-    }
+    };
     return (
         <>
             <Control
@@ -56,8 +56,8 @@ function MapControls(): JSX.Element {
                 options={SCALE_OPTIONS}
             />
         </>
-    )
-}
+    ) as JSX.Element;
+};
 
 export default MapControls;
 
