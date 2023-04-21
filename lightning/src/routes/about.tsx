@@ -8,13 +8,28 @@ export default function Home() {
             <h1>About</h1>
             <ul>
                 <li>
-                    <a href="https://maplibre.org/" target="_blank">
-                        MapLibre
+                    <a href="https://www.openstreetmap.org/" target="_blank">
+                        OpenStreetMap
                     </a>
                 </li>
                 <li>
                     <a href="https://openmaptiles.org/" target="_blank">
                         OpenMapTiles
+                    </a>
+                </li>
+                <li>
+                    <a href="https://tilemaker.org/" target="_blank">
+                        Tilemaker
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/maplibre/martin" target="_blank">
+                        Martin
+                    </a>
+                </li>
+                <li>
+                    <a href="https://maplibre.org/" target="_blank">
+                        MapLibre
                     </a>
                 </li>
                 <li>
@@ -39,7 +54,6 @@ export default function Home() {
                     github.com/adoyle0/maps
                 </a>
             </p>
-            <Counter />
         </main>
     );
 }
