@@ -13,7 +13,7 @@ import type { MapOptions } from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-import styleJson from '~/style.json';
+import styleJson from '~/style/style.json';
 import type { ArcLayer, ArcLayerProps } from '@deck.gl/layers/typed';
 const MAP_STYLE: StyleSpecification = styleJson;
 
