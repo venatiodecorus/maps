@@ -2,14 +2,12 @@ body {
     background-color: #4C5270;
     font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell,
     'Open Sans', 'Helvetica Neue', sans-serif;
-        max-width: 300px;
 }
 a {
     margin-right: 1rem;
 }
 main {
-    background-color: hsla(230, 19%, 17%, 0.6);
-
+    background-color: hsla(230, 19%, 17%, 0);
 }
 h1 {
     color: #36EEE0;
