@@ -14,7 +14,8 @@ import type { StyleSpecification } from 'maplibre-gl';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 import styleJson from '~/style/style.json';
-import type { ArcLayer, ArcLayerProps } from '@deck.gl/layers/typed';
+import { arcData, scatData, viewport, setViewport, rotate, setRotate } from '~/root';
+
 const MAP_STYLE: StyleSpecification = styleJson;
 
 
@@ -26,40 +27,7 @@ const TEST = {
     PRH: { LngLatLike: { lng: -71.053678, lat: 42.363722 }, coords: [-71.053678, 42.363722], },
     NSE: { LngLatLike: { lng: -74.0112660425065, lat: 40.70689167578798 }, coords: [-74.0112660425065, 40.70689167578798], },
 };
-const ARC_DATA = [
-    { source: TEST.FAN.coords, target: TEST.GDT.coords },
-    { source: TEST.FAN.coords, target: TEST.BBC.coords },
-    { source: TEST.FAN.coords, target: TEST.GAR.coords },
-    { source: TEST.FAN.coords, target: TEST.PRH.coords },
-];
-const SCAT_DATA = [
-    { coordinates: TEST.FAN.coords },
-    { coordinates: TEST.GDT.coords },
-    { coordinates: TEST.BBC.coords },
-    { coordinates: TEST.GAR.coords },
-    { coordinates: TEST.PRH.coords },
-    { coordinates: TEST.NSE.coords },
-];
-const BOS: Viewport = {
-    center: TEST.FAN.coords,
-    zoom: 15.5,
-    bearing: 160,
-    pitch: 60,
-};
-const NYC: Viewport = {
-    center: TEST.NSE.coords,
-    zoom: 15.5,
-    bearing: 10,
-    pitch: 60,
-};
 
-const USER_LOC = TEST.FAN.LngLatLike;
-const INITIAL_VIEWPORT: Viewport = {
-    center: USER_LOC,
-    zoom: 15.5,
-    bearing: 10,
-    pitch: 60,
-};
 const options: MapOptions = {
     container: 'solid-map-gl will override me',
     style: MAP_STYLE,
@@ -70,16 +38,6 @@ const options: MapOptions = {
 
 function BadassMap(props: any): JSX.Element {
 
-    const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEWPORT);
-    const [rotate, setRotate] = createSignal<boolean>(false);
-    const [scatData, setScatData] = createSignal(SCAT_DATA);
-    const [arcData, setArcData] = createSignal(ARC_DATA);
-    const toggleRotate = () => setRotate<boolean>(!rotate());
-
-    async function flyTo(viewUpdate: Viewport) {
-        setRotate<boolean>(false)
-        setViewport<Viewport>(viewUpdate);
-    };
     async function eventHandler(event: any) {
         switch (event.type) {
             case 'mousedown':
@@ -113,15 +71,6 @@ function BadassMap(props: any): JSX.Element {
                 <MapArcLayer data={arcData()} />
 
                 <Camera rotateViewport={rotate()} reverse={true} />
-
-                <ul> <li>
-                    <Show when={rotate()}
-                        fallback={<button onClick={toggleRotate}> Turn Rotation On </button>} >
-
-                        <button onClick={toggleRotate}> Turn Rotation Off </button> </Show> </li>
-                    <li><button onClick={() => flyTo({ ...viewport(), ...BOS })}> Boston </button> </li>
-                    <li><button onClick={() => flyTo({ ...viewport(), ...NYC })}> NYC </button> </li>
-                </ul>
 
                 <MapControls />
             </MapGL >
