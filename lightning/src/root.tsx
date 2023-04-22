@@ -36,6 +36,18 @@ const INITIAL_VIEWPORT: Viewport = {
     bearing: 10,
     pitch: 60,
 };
+export const BOS: Viewport = {
+    center: TEST.FAN.coords,
+    zoom: 15.5,
+    bearing: 160,
+    pitch: 60,
+};
+export const NYC: Viewport = {
+    center: TEST.NSE.coords,
+    zoom: 15.5,
+    bearing: 10,
+    pitch: 60,
+};
 export const [scatData, setScatData] = createSignal(SCAT_DATA);
 export const [arcData, setArcData] = createSignal(ARC_DATA);
 export const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEWPORT);
