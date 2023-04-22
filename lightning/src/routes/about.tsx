@@ -2,7 +2,9 @@ import { Title } from 'solid-start';
 
 import type { JSX } from 'solid-js';
 
+
 export default function Home() {
+
     return (
         <main>
             <Title>About Lightning</Title>
@@ -57,4 +59,4 @@ export default function Home() {
             </p>
         </main>
     ) as JSX.Element;
-}
+};
