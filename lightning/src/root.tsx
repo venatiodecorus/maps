@@ -35,7 +35,6 @@ export const [arcData, setArcData] = createSignal([
 export const [USER_LOC] = createSignal(TEST.FAN.LngLatLike);
 
 export const [viewport, setViewport] = createSignal<Viewport>();
-createEffect(() => console.log(viewport()));
 
 export default function Root() {
     return (
