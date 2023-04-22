@@ -41,16 +41,16 @@ function BadassMap(props: any): JSX.Element {
     async function eventHandler(event: any) {
         switch (event.type) {
             case 'mousedown':
-                setRotate(false)
+                // setRotate(false)
                 break;
             case 'zoomstart':
-                setRotate(false)
+                // setRotate(false)
                 break;
             case 'touchstart':
-                setRotate(false)
+                // setRotate(false)
                 break;
             case 'drag':
-                setRotate(false)
+                // setRotate(false)
                 break;
         };
     };
