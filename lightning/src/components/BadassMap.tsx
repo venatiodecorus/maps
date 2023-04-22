@@ -71,7 +71,7 @@ const options: MapOptions = {
 function BadassMap(props: any): JSX.Element {
 
     const [viewport, setViewport] = createSignal<Viewport>(INITIAL_VIEWPORT);
-    const [rotate, setRotate] = createSignal<boolean>(true);
+    const [rotate, setRotate] = createSignal<boolean>(false);
     const [scatData, setScatData] = createSignal(SCAT_DATA);
     const [arcData, setArcData] = createSignal(ARC_DATA);
     const toggleRotate = () => setRotate<boolean>(!rotate());
