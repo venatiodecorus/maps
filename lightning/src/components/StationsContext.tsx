@@ -2,6 +2,7 @@ import { createContext, useContext, createResource } from "solid-js";
 
 import type { JSX } from "solid-js";
 
+
 type ChargingStation = {
     Name: string
     PhoneNumer: string
@@ -45,20 +46,21 @@ const TEST_PACKET: StationRequest = {
 
 const StationsContext = createContext();
 
+const [stations] = createResource(async () => {
+    const response = await fetch("https://kevinfwu.com/getnearest", {
+        method: "POST",
+        cache: 'default',
+        body: JSON.stringify(TEST_PACKET),
+        headers: { 'Content-Type': 'application/json' }
+    }); return await response.json() as Promise<StationResponse[]>;
+});
+
+
 export function StationsProvider(props: any) {
-    const [stations] = createResource(async () => {
-        const response = await fetch("https://kevinfwu.com/getnearest", {
-            method: "POST",
-            cache: 'default',
-            body: JSON.stringify(TEST_PACKET),
-            headers: { 'Content-Type': 'application/json' }
-        }); return await response.json() as Promise<StationResponse[]>;
-    });
-    return (
-        <StationsContext.Provider value={stations()}>
-            {props.children}
-        </StationsContext.Provider>
-    ) as JSX.Element;
+    return (<StationsContext.Provider value={stations()}>
+        {props.children}
+    </StationsContext.Provider>) as JSX.Element;
 };
+
 
 export function getStations() { return useContext(StationsContext); };

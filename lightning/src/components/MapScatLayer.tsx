@@ -6,17 +6,14 @@ import type { JSX } from 'solid-js';
 
 
 export default function MapScatLayer(props: any) {
-
-    return (
-        <Layer customLayer={
-            new MapboxLayer({
-                id: 'deckgl-scatterplot',
-                type: ScatterplotLayer,
-                data: props.data,
-                getPosition: (d: any) => d.coordinates,
-                getRadius: 30,
-                getFillColor: [255, 140, 0],
-                getLineColor: [0, 0, 0,],
-            } as any)} />
-    ) as JSX.Element;
+    return (<Layer customLayer={
+        new MapboxLayer({
+            id: 'deckgl-scatterplot',
+            type: ScatterplotLayer,
+            data: props.data,
+            getPosition: (d: any) => d.coordinates,
+            getRadius: 30,
+            getFillColor: [255, 140, 0],
+            getLineColor: [0, 0, 0,],
+        } as any)} />) as JSX.Element;
 };
