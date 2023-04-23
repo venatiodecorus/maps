@@ -1,7 +1,4 @@
-import { createContext, useContext, createResource } from "solid-js";
-
-import type { JSX } from "solid-js";
-
+import { createSignal } from "solid-js";
 
 type ChargingStation = {
     Name: string
@@ -15,8 +12,9 @@ type ChargingStation = {
     CntLevel2Chargers: number
     CntLevel3Chargers: number
 };
+
 type Location = {
-    StreetAddresss: string
+    StreetAddress: string
     City: string
     State: string
     Country: string
@@ -26,41 +24,35 @@ type Location = {
     CoordinateString: string
     Stations: ChargingStation[]
 };
+
 type StationRequest = {
     Latitude: number
     Longitude: number
     Distance: number
     CountLimit: number
 };
+
 type StationResponse = {
     Dist: number
     Loc: Location
 };
-const USER_LOC = { lng: -71.05625, lat: 42.36, };
+
 const TEST_PACKET: StationRequest = {
-    Latitude: USER_LOC.lat,
-    Longitude: USER_LOC.lng,
+    Latitude: 42.36,
+    Longitude: -71.05625,
     Distance: 10,
     CountLimit: 10,
 };
 
-const StationsContext = createContext();
+export const [stationsRequest, setStationsRequest] = createSignal<StationRequest>(TEST_PACKET)
 
-const [stations] = createResource(async () => {
-    const response = await fetch("https://kevinfwu.com/getnearest", {
-        method: "POST",
+export async function fetchStations() {
+    let response = await fetch('https://kevinfwu.com/getnearest', {
+        method: 'POST',
         cache: 'default',
-        body: JSON.stringify(TEST_PACKET),
+        body: JSON.stringify(stationsRequest()),
         headers: { 'Content-Type': 'application/json' }
-    }); return await response.json() as Promise<StationResponse[]>;
-});
-
-
-export function StationsProvider(props: any) {
-    return (<StationsContext.Provider value={stations()}>
-        {props.children}
-    </StationsContext.Provider>) as JSX.Element;
+    });
+    let resJson = await response.json();
+    return resJson as StationResponse[];
 };
-
-
-export function getStations() { return useContext(StationsContext); };

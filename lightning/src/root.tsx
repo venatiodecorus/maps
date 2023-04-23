@@ -1,6 +1,18 @@
 // @refresh reload
-import { Suspense, createSignal } from "solid-js";
-import { A, Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from "solid-start";
+import {
+    A,
+    Body,
+    ErrorBoundary,
+    FileRoutes,
+    Head,
+    Html,
+    Meta,
+    Routes,
+    Scripts,
+    Title
+} from "solid-start";
+import { createSignal, } from "solid-js";
+
 import "./root.css";
 import BadassMap from './components/BadassMap';
 
@@ -44,6 +56,7 @@ export const [arcData, setArcData] = createSignal<ArcData[]>([
 export const [USER_LOC] = createSignal(TEST.FAN.LngLatLike);
 export const [viewport, setViewport] = createSignal<Viewport>();
 
+
 export default function Root() {
     return (<Html lang="en">
         <Head>
@@ -53,16 +66,14 @@ export default function Root() {
         </Head>
 
         <Body>
-            <Suspense>
-                <ErrorBoundary>
-                    <A href="/">Map</A>
-                    <A href="/about">About</A>
-                    <Routes>
-                        <FileRoutes />
-                    </Routes>
-                    <BadassMap />
-                </ErrorBoundary>
-            </Suspense>
+            <ErrorBoundary>
+                <A href="/">Map</A>
+                <A href="/about">About</A>
+                <Routes>
+                    <FileRoutes />
+                </Routes>
+                <BadassMap />
+            </ErrorBoundary>
             <Scripts />
         </Body>
 

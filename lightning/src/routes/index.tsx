@@ -1,11 +1,15 @@
-import { Title } from 'solid-start';
+import { Title, } from 'solid-start';
+import { Suspense } from 'solid-js';
+
+import AccordionTest from '~/components/AccordionTest';
 
 import type { JSX } from 'solid-js';
 
-
 export default function Home() {
-    return (<main>
+    return (<>
         <Title>Ride the Lightning</Title>
-
-    </main>) as JSX.Element;
+        <Suspense>
+            <AccordionTest />
+        </Suspense>
+    </>) as JSX.Element;
 };
