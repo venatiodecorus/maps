@@ -31,7 +31,7 @@ export default function BadassMap() {
     >
 
         <MapScatLayer />
-        <MapArcLayer />
+        <MapArcLayer data={arcData()}/>
         <MapControls />
 
     </MapGL >) as JSX.Element;
