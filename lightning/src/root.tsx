@@ -18,10 +18,8 @@ import BadassMap from './components/BadassMap';
 
 import type { Viewport } from "solid-map-gl";
 import type { JSX } from "solid-js";
+import { createStore } from "solid-js/store";
 
-type ScatData = {
-    coordinates: number[]
-}
 
 type ArcData = {
     source: number[],
@@ -37,6 +35,9 @@ const TEST = {
     NSE: { LngLatLike: { lng: -74.0112660425065, lat: 40.70689167578798 }, coords: [-74.0112660425065, 40.70689167578798], },
 };
 
+type ScatData = {
+    coordinates: number[]
+}
 export const [scatData, setScatData] = createSignal<ScatData[]>([
     { coordinates: TEST.FAN.coords },
     { coordinates: TEST.GDT.coords },

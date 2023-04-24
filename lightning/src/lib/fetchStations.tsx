@@ -1,5 +1,7 @@
 import { createSignal } from "solid-js";
 
+import { scatData, setScatData } from "~/root";
+
 type ChargingStation = {
     Name: string
     PhoneNumer: string
@@ -54,5 +56,16 @@ export async function fetchStations() {
         headers: { 'Content-Type': 'application/json' }
     });
     let resJson = await response.json();
+    console.log('Response JSON: ', resJson);
+    let buf = [];
+    for (let station of resJson) {
+        buf.push({coordinates: [station.Loc.Coordinates[1], station.Loc.Coordinates[0]]})
+    };
+    console.log('Scat before: ', scatData());
+    console.log('Buffer: ', buf);
+    setScatData(buf);
+    console.log('Scat after: ', scatData());
+
+    //console.log(getCoords(resJson));
     return resJson as StationResponse[];
 };

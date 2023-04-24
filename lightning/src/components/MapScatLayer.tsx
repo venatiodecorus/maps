@@ -4,13 +4,15 @@ import { Layer } from 'solid-map-gl';
 
 import type { JSX } from 'solid-js';
 
+import { scatData } from '~/root';
+
 
 export default function MapScatLayer(props: any) {
     return (<Layer customLayer={
         new MapboxLayer({
             id: 'deckgl-scatterplot',
             type: ScatterplotLayer,
-            data: props.data,
+            data: scatData(),
             getPosition: (d: any) => d.coordinates,
             getRadius: 30,
             getFillColor: [255, 140, 0],

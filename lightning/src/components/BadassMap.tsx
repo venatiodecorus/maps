@@ -30,8 +30,8 @@ export default function BadassMap() {
         transitionType="flyTo"
     >
 
-        <MapScatLayer data={scatData()} />
-        <MapArcLayer data={arcData()} />
+        <MapScatLayer />
+        <MapArcLayer />
         <MapControls />
 
     </MapGL >) as JSX.Element;
